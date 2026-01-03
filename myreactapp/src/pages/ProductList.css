@@ -1,0 +1,167 @@
+body {
+  background: #f3f4f6;
+  color: #1f2937;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* HEADER */
+.site-header {
+  background: #111827;
+  color: white;
+  padding: 16px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-header a {
+  margin-left: 20px;
+  color: #d1d5db;
+  text-decoration: none;
+}
+
+.brand {
+  font-size: 22px;
+  font-weight: bold;
+}
+/* PAGE WRAPPER */
+.product-page {
+  max-width: 1200px;   /* ⭐ THIS IS THE KEY */
+  margin: 0 auto;     /* center the content */
+  padding: 40px 20px;
+}
+
+
+
+
+/* ROW STYLE (NOT BOX) */
+.product-row {
+  display: grid;
+  grid-template-columns: 500px 1fr; /* image + info */
+  gap: 60px;
+  align-items: flex-start;
+  padding: 40px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+
+/* IMAGE SECTION */
+.image-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.thumb-strip {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+.thumb-strip img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* INFO */
+.info-section h3 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.desc {
+  color: #4b5563;
+  margin-bottom: 12px;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.info-section button {
+  padding: 12px 30px;
+  background: #111827;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* IMAGE VIEWER */
+.viewer {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.viewer-box {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.viewer-box img {
+  max-width: 80vw;
+  max-height: 70vh;
+}
+
+.viewer-thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.viewer-thumbs img {
+  width: 70px;
+  height: 70px;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.viewer-thumbs img.active {
+  opacity: 1;
+  border: 2px solid black;
+}
+
+/* FOOTER */
+.site-footer {
+  background: #111827;
+  color: #9ca3af;
+  text-align: center;
+  padding: 16px;
+  margin-top: 40px;
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+  .product-row {
+    grid-template-columns: 1fr;
+  }
+
+  .site-header,
+  .product-page {
+    padding: 20px;
+  }
+}
+.info-section {
+  max-width: 500px; /* prevents text from looking lost */
+}
+.main-img {
+  height: 320px;
+}
