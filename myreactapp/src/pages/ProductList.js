@@ -110,11 +110,6 @@ const ProductList = () => {
           </div>
         </div>
       )}
-
-      {/* FOOTER */}
-      <footer className="site-footer">
-        © 2025 UrbanFurnish — Premium Furniture Store
-      </footer>
     </>
   );
 };

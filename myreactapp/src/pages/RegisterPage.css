@@ -1,55 +1,116 @@
-.register-wrapper {
-  min-height: 100vh;
-  background: linear-gradient(to right, #1d2671, #c33764);
+
+/* Reset & base */
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.signup-container {
+  width: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.register-card {
-  background: #1e293b;
-  padding: 35px;
-  width: 360px;
-  border-radius: 10px;
-  text-align: center;
-  color: white;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
 
-.register-card h2 {
-  margin-bottom: 25px;
-}
-
-.register-card input {
+/* Page wrapper */
+.signup-page {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 6px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Form */
+.signup-form {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Heading */
+.signup-title {
+  font-size: 36px;
+  color: #111827;
+}
+
+.signup-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 12px;
+  text-align: center;
+}
+
+/* Input wrapper */
+.signup-input {
+  width: 100%;
+  height: 48px;
+  border: 1px solid rgba(209, 213, 219, 0.6);
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* Input */
+.signup-input input {
   border: none;
   outline: none;
+  width: 100%;
+  font-size: 14px;
+  background: transparent;
+  color: #6b7280;
 }
 
-.register-card button {
+.signup-input input::placeholder {
+  color: #9ca3af;
+}
+
+/* Checkbox row */
+.signup-options {
   width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 6px;
+  margin-top: 28px;
+  font-size: 14px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Button */
+.signup-btn {
+  width: 100%;
+  height: 44px;
+  margin-top: 32px;
   background: #6366f1;
   color: white;
-  font-size: 16px;
+  border: none;
+  border-radius: 999px;
   cursor: pointer;
+  transition: opacity 0.2s ease;
 }
 
-.register-card button:hover {
-  background: #4f46e5;
+.signup-btn:hover {
+  opacity: 0.9;
 }
 
-.login-link {
-  margin-top: 15px;
+/* Footer text */
+.signup-footer {
+  margin-top: 16px;
   font-size: 14px;
+  color: #6b7280;
 }
 
-.login-link a {
-  color: #a5b4fc;
+.signup-footer a {
+  color: #818cf8;
   text-decoration: none;
+}
+
+.signup-footer a:hover {
+  text-decoration: underline;
 }

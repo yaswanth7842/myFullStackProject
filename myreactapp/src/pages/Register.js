@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
 
+
+
 function RegisterPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -45,13 +47,13 @@ function RegisterPage() {
 
       const text = await response.text();
 
-     if (response.ok) {
-  setMessage("Registration successful. Redirecting to login...");
-  setTimeout(() => {
-    navigate("/login");
-  }, 2000);
-}
- else {
+      if (response.ok) {
+        setMessage("Registration successful. Redirecting to login...");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      }
+      else {
         setMessage(text);
       }
     } catch (error) {
@@ -60,66 +62,55 @@ function RegisterPage() {
   };
 
   return (
-    <div className="register-wrapper">
-      <form className="register-card" onSubmit={handleSubmit}>
-        <h2>Create Account</h2>
+    <div className="signup-container">
+      <form className="form" onSubmit={handleSubmit}>
+        <h2 className="title">Create account</h2>
+        <p className="subtitle">
+          Sign up to get started with your account
+        </p>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
+        {/* Name */}
+        <div className="input-box">
+          <img width="15" height="15" viewBox="0 0 24 24" src="./user.png" alt=""></img>
+          <input type="text" placeholder="Full name" value={formData.name} onChange={handleChange} required />
+        </div>
 
-        <input
-          type="number"
-          name="age"
-          placeholder="Age"
-          value={formData.age}
-          onChange={handleChange}
-          required
-        />
+        {/* Email */}
+        <div className="input-box">
+          <img width="15" height="15" viewBox="0 0 16 11" src="./mail.png" alt=""></img>
+          <input type="email" placeholder="Email address" value={formData.email} onChange={handleChange} required />
+        </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+        {/* Password */}
+        <div className="input-box">
+          <img width="15" height="15" viewBox="0 0 13 17" src="./lock_15630793.png" alt=""></img>
+          <input type="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+        </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
+        {/* Confirm Password */}
+        <div className="input-box">
+          <img width="15" height="15" viewBox="0 0 13 17" src="./lock_15630793.png" alt=""></img>
 
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-        />
+          <input type="password" placeholder="Confirm password" value={formData.confirmPassword} onChange={handleChange} required />
+        </div>
 
-        <button type="submit">Register</button>
+        {/* Terms */}
+        <div className="options">
+          <label>
+            <input type="checkbox" required /> I agree to the terms
+          </label>
+        </div>
 
-        {message && <p>{message}</p>}
+        <button type="submit" className="login-btn">
+          Sign up
+        </button>
+        {message && <p className="message">{message}</p>}
 
-        <p className="login-link">
-          Already have an account?
-          <Link to="/login"> Login</Link>
+        <p className="signup">
+          Already have an account? <Link to="/login">Sign in</Link>
         </p>
       </form>
     </div>
   );
 }
-
 export default RegisterPage;
