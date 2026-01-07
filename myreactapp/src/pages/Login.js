@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
@@ -53,6 +53,7 @@ const handleLogin = async (e) => {
         />
 
         <button type="submit">Login</button>
+        <Link to="/forgotPassword">forgotpassword</Link>
       </form>
     </div>
   );

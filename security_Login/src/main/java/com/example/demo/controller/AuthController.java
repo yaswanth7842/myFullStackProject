@@ -8,11 +8,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.model.LoginRequest;
+import com.example.demo.model.PasswordDto;
 import com.example.demo.model.RegisterRequest;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.repositary.UserRepository;
 import com.example.demo.securityconfg.JwtUtil;
+import com.example.demo.serivce.AuthService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +28,7 @@ public class AuthController {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AuthService authService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -35,19 +37,10 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            return ResponseEntity.status(409).body("Email already exists");
-        }
+    public ResponseEntity<String> register(@RequestBody RegisterRequest register) {
+       String result=authService.register(register);
 
-        User user = new User();
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.ROLE_USER);
-
-        userRepository.save(user);
-
-        return ResponseEntity.status(201).body("Registered successfully");
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/login")
@@ -70,4 +63,13 @@ public class AuthController {
 
         return ResponseEntity.ok(response);
     }
+    @PostMapping("/checkemail")
+    public String checkEmail(@RequestBody PasswordDto dto) {
+    	return authService.checkEmail(dto);
+    }
+    @PostMapping("/checkemail/forgotpassword")
+    public String passwordforgot(@RequestBody PasswordDto password) {
+    	return authService.passwordforgot(password);
+    }
+    
 }

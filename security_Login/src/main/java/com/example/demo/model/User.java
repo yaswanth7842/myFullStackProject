@@ -9,7 +9,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+    private String name;
+    
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -50,4 +52,13 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+    
 }

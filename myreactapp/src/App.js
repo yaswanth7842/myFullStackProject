@@ -6,6 +6,7 @@ import Contact from "./pages/Contact";
 import AddProduct from "./pages/AddProduct";
 import ProductList from "./pages/ProductList";
 import Cart from "./pages/Cart";
+import ForgotPassword from "./pages/ForgotPassword.js";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/product" element={<AddProduct/>}/>
         <Route path="/productlist" element={<ProductList/>}/>
         <Route path="/cart" element={<Cart/>}/>
+        <Route path="/forgotpassword" element={<ForgotPassword/>}/>
       </Routes>
     </BrowserRouter>
   );
