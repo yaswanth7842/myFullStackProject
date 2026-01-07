@@ -1,0 +1,125 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  height: 70px;
+  width: 100%;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(229,231,235);
+  color: #374151;
+  position: relative;
+  z-index: 20;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* Logo */
+.logo {
+  color: #4f46e5;
+  text-decoration: none;
+  font-size: 26px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Links */
+.nav-links {
+  display: none;
+  list-style: none;
+  gap: 40px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: rgba(55, 65, 81, 0.8);
+}
+
+/* CTA Button */
+.cta-btn {
+  width: 160px;
+  height: 44px;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  font-size: 14px;
+  color: #4b5563;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.auth-links a {
+  margin: 0 14px;
+  color: #374151;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.cta-btn:hover {
+  background: #f9fafb;
+}
+
+.cta-btn:active {
+  transform: scale(0.95);
+}
+
+/* Menu Button */
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.menu-btn:active {
+  transform: scale(0.9);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.mobile-menu ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.mobile-menu a {
+  text-decoration: none;
+  font-size: 16px;
+  color: #374151;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex;
+  }
+
+  .desktop-only {
+    display: inline-block;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+}

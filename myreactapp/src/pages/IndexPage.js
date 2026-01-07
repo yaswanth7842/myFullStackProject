@@ -5,7 +5,7 @@ import "./IndexPage.css";
 function IndexPage() {
   return (
     <>
-      {/* NAVBAR */}
+      {/* NAVBAR
       <nav className="navbar">
         <h2 className="logo">FurniNest</h2>
 
@@ -20,7 +20,7 @@ function IndexPage() {
           <Link to="/login">Login</Link>
           <Link to="/register">Register</Link>
         </div>
-      </nav>
+      </nav> */}
 
       {/* HERO SECTION */}
       <section className="hero">
@@ -115,13 +115,13 @@ function IndexPage() {
         </Link>
       </section>
 
-      {/* FOOTER */}
+      {/* FOOTER
       <footer className="footer">
         <p>© 2026 FurniNest. All Rights Reserved.</p>
         <p className="admin-link">
           <Link to="/admin/login">Admin Login</Link>
         </p>
-      </footer>
+      </footer> */}
     </>
   );
 }

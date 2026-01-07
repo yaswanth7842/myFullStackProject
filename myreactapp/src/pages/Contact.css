@@ -1,56 +1,88 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Container */
 .contact-container {
-  min-height: 100vh;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 40px;
+  color: #1f2937;
+}
+
+/* Badge */
+.contact-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+}
+
+/* Title */
+.contact-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-top: 16px;
+}
+
+/* Text */
+.contact-text {
+  margin-top: 16px;
+}
+
+/* Links */
+.contact-link {
+  color: #4f46e5;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+}
+
+/* Grid */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  margin-top: 64px;
+}
+
+/* Cards */
+.contact-card {
+  text-align: left;
+}
+
+/* Icon */
+.icon-wrapper {
+  width: 40px;
+  height: 40px;
+  background: rgba(79, 70, 229, 0.2);
+  color: #4f46e5;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to right, #1d2671, #c33764);
 }
 
-.contact-card {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
+/* Card Text */
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 8px;
 }
 
-.contact-card h2 {
-  text-align: center;
-  margin-bottom: 15px;
+.card-text {
+  color: #6b7280;
+  margin: 4px 0 16px;
 }
 
-.contact-card input,
-.contact-card textarea {
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.contact-card textarea {
-  resize: none;
-  height: 80px;
-}
-
-.contact-card button {
-  padding: 10px;
-  background: #1d2671;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.contact-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.contact-text {
-  max-width: 500px;
-  text-align: center;
-  color: white;
-  font-weight: normal;
+/* Responsive */
+@media (min-width: 768px) {
+  .contact-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

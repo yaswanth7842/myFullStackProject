@@ -1,62 +1,111 @@
 import { useState } from "react";
+<<<<<<< HEAD
 import { Link, useNavigate } from "react-router-dom";
+=======
+import { useNavigate, Link } from "react-router-dom";
+>>>>>>> a1212b3fb4c4c58c1d13372480fc736c67fa8f19
 import "./Login.css";
 
-function Login() {
+export function Login() {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-const handleLogin = async (e) => {
-  e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  // ✅ Clear old token
-  localStorage.removeItem("token");
-  localStorage.removeItem("role");
+    // ✅ Clear old token
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
 
-  const res = await fetch("http://localhost:8092/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
+    const res = await fetch("http://localhost:8092/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-  if (!res.ok) {
-    alert("Invalid credentials");
-    return;
-  }
+    if (!res.ok) {
+      alert("Invalid credentials");
+      return;
+    }
 
-  const data = await res.json();
-  localStorage.setItem("token", data.token);
-  localStorage.setItem("role", data.role);
+    const data = await res.json();
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("role", data.role);
 
-  navigate("/");
-};
-
+    navigate("/");
+  };
 
   return (
-    <div className="login-container">
-      <form className="login-card" onSubmit={handleLogin}>
-        <h2>Login</h2>
-
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+    <div className="container">
+      {/* Left Image */}
+      <div className="left-image">
+        <img
+          src="./pexels-maksgelatin-4352247.jpg"
+          alt="leftSide"
         />
+      </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      {/* Right Form */}
+      <div className="right-content">
+        <form className="form" onSubmit={handleLogin}>
+          <h2 className="title">Sign in</h2>
+          <p className="subtitle">
+            Welcome back! Please sign in to continue
+          </p>
 
+<<<<<<< HEAD
         <button type="submit">Login</button>
         <Link to="/forgotPassword">forgotpassword</Link>
       </form>
+=======
+          <button type="button" className="google-btn">
+            <img
+              src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg"
+              alt="google"
+            />
+          </button>
+
+          <div className="divider">
+            <span></span>
+            <p>or sign in with email</p>
+            <span></span>
+          </div>
+
+          <div className="input-box">
+            <img width="15" height="15" viewBox="0 0 13 17" src="./mail.png" alt="" />
+            <input type="email" placeholder="Email id" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          </div>
+
+          <div className="input-box">
+
+            <img width="15" height="15" viewBox="0 0 13 17" src="./lock_15630793.png" alt="" />
+            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          </div>
+
+          <div className="options">
+            <label>
+              <input type="checkbox" />
+              Remember me
+            </label>
+            <Link to="#">Forgot password?</Link>
+          </div>
+
+          <button type="submit" className="login-btn">
+            Login
+          </button>
+
+          <p className="signup">
+            Don’t have an account? <Link to="/Register">Sign up</Link>
+          </p>
+        </form>
+      </div>
+>>>>>>> a1212b3fb4c4c58c1d13372480fc736c67fa8f19
     </div>
   );
 }
 
+
 export default Login;
+

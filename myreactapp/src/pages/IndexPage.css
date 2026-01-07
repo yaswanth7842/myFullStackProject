@@ -11,34 +11,6 @@ body {
   color: #333;
 }
 
-/* NAVBAR */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 60px;
-  background: #1e1e1e;
-  color: white;
-}
-
-.logo {
-  font-size: 26px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.nav-links a,
-.auth-links a {
-  margin: 0 14px;
-  color: #ddd;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.nav-links a:hover,
-.auth-links a:hover {
-  color: #ffb703;
-}
 
 /* HERO SECTION */
 .hero {
@@ -236,19 +208,6 @@ body {
   color: #ccc;
 }
 
-/* FOOTER */
-.footer {
-  background: #111;
-  color: #aaa;
-  text-align: center;
-  padding: 20px;
-  font-size: 14px;
-}
-
-.footer a {
-  color: #ffb703;
-  text-decoration: none;
-}
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
