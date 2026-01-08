@@ -78,8 +78,7 @@ public class JwtFilter extends OncePerRequestFilter {
                         userDetailsService.loadUserByUsername(email);
 
                 // ✅ VALIDATE TOKEN
-                if (jwtUtil.validateToken(token, userDetails.getUsername())) {
-
+                if (jwtUtil.validateToken(token, email)) {
                     UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(
                             userDetails,
@@ -87,12 +86,9 @@ public class JwtFilter extends OncePerRequestFilter {
                             userDetails.getAuthorities()
                         );
 
-                    // 🔐 SET USER AS LOGGED IN
-                    SecurityContextHolder
-                        .getContext()
-                        .setAuthentication(auth);
-
-                } else {
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
+else {
                     response.sendError(
                         HttpServletResponse.SC_UNAUTHORIZED,
                         "Invalid JWT"

@@ -1,24 +1,37 @@
 package com.example.demo.serivce;
 
 import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.model.CartItem;
 import com.example.demo.model.Product;
 import com.example.demo.model.ProductAddDTO;
 import com.example.demo.model.ProductGetAllDTO;
+import com.example.demo.repositary.CartItemRepository;
 import com.example.demo.repositary.ProductRepository;
 
-@Service
-public class ProductService {
+import jakarta.transaction.Transactional;
 
+@Service
+@EnableMethodSecurity  
+public class ProductService {
+	
+	@Autowired
+	private CartItemRepository cartitemrRepository;
+	
+	
     private final ProductRepository productRepository;
 
     public ProductService(ProductRepository productRepository) {
@@ -28,6 +41,9 @@ public class ProductService {
     // POST - Add Product
     public Product addProduct(ProductAddDTO dto) throws IOException {
         Product product = new Product();
+        if(productRepository.findByName(dto.getName()).isPresent()) {
+        	throw new RuntimeException("Name should be unquic");
+        }
         product.setName(dto.getName());
         product.setDescription(dto.getDescription());
         product.setPrice(dto.getPrice());
@@ -64,4 +80,23 @@ public class ProductService {
 
         return dtoList;
     }
+    
+    @Transactional
+    public String deleteProduct(Long productId) {
+
+        // 1️⃣ Delete all cart items referencing this product
+    	cartitemrRepository.deleteByProductId(productId);
+
+        // 2️⃣ Fetch product
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        // 3️⃣ Clear product images
+        product.getImageUrls().clear(); // removes them from the @ElementCollection table
+
+        productRepository.delete(product); // finally delete the product
+
+        return "Product deleted successfully";
+    }
+
 }

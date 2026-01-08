@@ -1,82 +1,85 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 function ForgotPassword() {
-  // state
-   const navigate = useNavigate();  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [step, setStep] = useState(1);
   const [message, setMessage] = useState("");
+  const [emailVerified, setEmailVerified] = useState(false);
 
-  // function to call backend
+  const navigate = useNavigate();
+
+  // CHECK EMAIL
   const checkEmail = async () => {
-    const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:8092/auth/checkemail", {
+    const response = await fetch("http://localhost:8080/check-email", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify({email})
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
     });
 
-    const data = await res.text();
-    if(data==="Email verified"){
-      setStep(2);
-      setMessage("");
+    const data = await response.json();
+
+    if (data === "Email Exist") {
+      setEmailVerified(true); // SHOW PASSWORD FIELDS
     }
+
     setMessage(data);
   };
-  const updatePassword=async()=>{
-    const token = localStorage.getItem("token");
-    const res=await fetch("http://localhost:8092/auth/checkemail/forgotpassword",{
-      method:"POST",
-      headers:{
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body:JSON.stringify({
-        email,
-        password,
-        conformpassword:confirmPassword
-      })
-    });
-     const data = await res.text();
 
-    if (data ==="Password updated") {
+  // UPDATE PASSWORD
+  const updatePassword = async () => {
+    const response = await fetch("http://localhost:8080/update-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, confirmPassword }),
+    });
+
+    const data = await response.json();
+
+    if (data === "Password Updated") {
       navigate("/login");
     }
+
     setMessage(data);
   };
 
-  // **Return JSX for the UI**
-   return (
+  return (
     <div>
-      {step === 1 && (
-        <>
-          <h3>Enter Email</h3>
-          <input value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="Email" />
-          <button onClick={checkEmail}>Next</button>
-        </>
-      )}
+      <h2>Forgot Password</h2>
 
-      {step === 2 && (
+      {/* EMAIL */}
+      <input
+        type="email"
+        placeholder="Enter Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <br />
+      <button onClick={checkEmail}>Check Email</button>
+
+      <br /><br />
+
+      {/* PASSWORD SECTION (ONLY AFTER EMAIL VERIFIED) */}
+      {emailVerified && (
         <>
-          <h3>Set New Password</h3>
-          <input type="password"
+          <input
+            type="password"
+            placeholder="New Password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
-            placeholder="Password" />
-          <input type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <br />
+
+          <input
+            type="password"
+            placeholder="Confirm Password"
             value={confirmPassword}
-            onChange={e => setConfirmPassword(e.target.value)}
-            placeholder="Confirm Password" />
-          <button onClick={updatePassword}>Update</button>
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <br />
+
+          <button onClick={updatePassword}>Update Password</button>
         </>
       )}
 

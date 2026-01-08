@@ -18,6 +18,7 @@ export default function Navbar() {
                 <li><Link to="/Product">Products</Link></li>
                 <li><Link to="/contact">Contact</Link></li>
                 <li><Link to="/cart">Cart</Link></li>
+                <li><Link to="/DeleteProducts">Delete Products</Link></li>
             </ul>
             <div className="auth-links">
                 <Link to="/login">Login</Link>

@@ -1,9 +1,5 @@
 import { useState } from "react";
-<<<<<<< HEAD
-import { Link, useNavigate } from "react-router-dom";
-=======
 import { useNavigate, Link } from "react-router-dom";
->>>>>>> a1212b3fb4c4c58c1d13372480fc736c67fa8f19
 import "./Login.css";
 
 export function Login() {
@@ -55,11 +51,6 @@ export function Login() {
             Welcome back! Please sign in to continue
           </p>
 
-<<<<<<< HEAD
-        <button type="submit">Login</button>
-        <Link to="/forgotPassword">forgotpassword</Link>
-      </form>
-=======
           <button type="button" className="google-btn">
             <img
               src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg"
@@ -89,7 +80,7 @@ export function Login() {
               <input type="checkbox" />
               Remember me
             </label>
-            <Link to="#">Forgot password?</Link>
+            <Link to="/forgotpassword">Forgot password?</Link>
           </div>
 
           <button type="submit" className="login-btn">
@@ -101,7 +92,6 @@ export function Login() {
           </p>
         </form>
       </div>
->>>>>>> a1212b3fb4c4c58c1d13372480fc736c67fa8f19
     </div>
   );
 }

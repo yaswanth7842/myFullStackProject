@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.model.Product;
 import com.example.demo.model.ProductAddDTO;
 import com.example.demo.model.ProductGetAllDTO;
+import com.example.demo.repositary.CartItemRepository;
 import com.example.demo.serivce.ProductService;
 
 @RestController
@@ -19,6 +21,8 @@ import com.example.demo.serivce.ProductService;
 public class ProductController {
 
     private final ProductService productService;
+    
+    
 
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -26,6 +30,7 @@ public class ProductController {
 
     // ✅ ADD PRODUCT
     @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+
     public ResponseEntity<Product> addProduct(
             @RequestParam String name,
             @RequestParam String description,
@@ -47,5 +52,9 @@ public class ProductController {
     public ResponseEntity<List<ProductGetAllDTO>> getAllProducts() {
         List<ProductGetAllDTO> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
+    }
+    @DeleteMapping("/deleteproducts/{id}")
+    public String deleteProducts(@PathVariable Long id) {
+    	return productService.deleteProduct(id);
     }
 }

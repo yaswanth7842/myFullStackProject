@@ -114,3 +114,16 @@
 .signup-footer a:hover {
   text-decoration: underline;
 }
+/* 🔒 FIX ICON OVERLAY ISSUE */
+.signup-input img {
+  width: 16px !important;
+  height: 16px !important;
+  position: static !important;
+}
+
+.signup-input svg {
+  width: 16px !important;
+  height: 16px !important;
+  position: static !important;
+}
+
