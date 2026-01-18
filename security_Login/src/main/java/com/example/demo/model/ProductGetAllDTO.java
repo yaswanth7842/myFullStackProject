@@ -10,6 +10,8 @@ public class ProductGetAllDTO {
     private String description;
     private double price;
     private List<String> imageUrls;
+    private List<String> videoPaths;
+    
 	public Long getId() {
 		return id;
 	}
@@ -40,6 +42,14 @@ public class ProductGetAllDTO {
 	public void setImageUrls(List<String> imageUrls) {
 		this.imageUrls = imageUrls;
 	}
+	public List<String> getVideoPaths() {
+		return videoPaths;
+	}
+	public void setVideoPaths(List<String> videoPath) {
+		this.videoPaths= videoPath;
+	}
+	
+	
     
     // getters and setters
 }

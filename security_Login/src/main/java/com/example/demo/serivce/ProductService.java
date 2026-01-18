@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.model.CartItem;
 import com.example.demo.model.Product;
 import com.example.demo.model.ProductAddDTO;
 import com.example.demo.model.ProductGetAllDTO;
@@ -59,6 +57,19 @@ public class ProductService {
             imageUrls.add("/images/" + fileName);
         }
         product.setImageUrls(imageUrls);
+        
+     // ---------- VIDEOS ----------
+        List<String> videoUrls = new ArrayList<>();
+        for (MultipartFile video : dto.getVideos()) {
+            String fileName = UUID.randomUUID() + "_" + video.getOriginalFilename();
+            Path path = Paths.get("uploads/videos", fileName);
+
+            Files.createDirectories(path.getParent());
+            Files.write(path, video.getBytes());
+
+            videoUrls.add("/videos/" + fileName);
+        }
+        product.setVideoPaths(videoUrls);
 
         return productRepository.save(product);
     }
@@ -75,6 +86,7 @@ public class ProductService {
             dto.setDescription(product.getDescription());
             dto.setPrice(product.getPrice());
             dto.setImageUrls(product.getImageUrls());
+            dto.setVideoPaths(product.getVideoPaths());
             dtoList.add(dto);
         }
 

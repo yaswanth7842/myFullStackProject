@@ -5,7 +5,7 @@ import "./ProductList.css";
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [activeProduct, setActiveProduct] = useState(null);
-  const [activeImg, setActiveImg] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     fetch("http://localhost:8092/products/all")
@@ -16,7 +16,6 @@ const ProductList = () => {
 
   const addToCart = (id) => {
     const token = localStorage.getItem("token");
-
     fetch(`http://localhost:8092/api/cart/add/${id}`, {
       method: "POST",
       headers: { Authorization: "Bearer " + token }
@@ -26,6 +25,18 @@ const ProductList = () => {
         alert("Added to cart ✅");
       })
       .catch(() => alert("Please login"));
+  };
+
+  const isVideo = (url) =>
+    url.endsWith(".mp4") || url.endsWith(".webm") || url.endsWith(".ogg");
+
+  // max 5 images + 1 video (video last)
+  const getMedia = (p) => {
+    const media = p.imageUrls ? [...p.imageUrls] : [];
+    if (p.videoPaths && p.videoPaths[0]) {
+      media.push(p.videoPaths[0]);
+    }
+    return media;
   };
 
   return (
@@ -43,69 +54,159 @@ const ProductList = () => {
 
       {/* PRODUCT LIST */}
       <div className="product-page">
-        {products.map(p => (
-          <div className="product-row" key={p.id}>
+        {products.map(p => {
+          const media = getMedia(p);
+          const mainMedia =
+            activeProduct?.id === p.id ? media[activeIndex] : media[0];
 
-            {/* LEFT IMAGES */}
-            <div className="image-section">
-              <img
-                className="main-img"
-                src={`http://localhost:8092${p.imageUrls?.[activeProduct?.id === p.id ? activeImg : 0]}`}
-                alt={p.name}
-                onClick={() => {
-                  setActiveProduct(p);
-                  setActiveImg(0);
-                }}
-              />
-
-              <div className="thumb-strip">
-                {p.imageUrls?.map((img, i) => (
-                  <img
-                    key={i}
-                    src={`http://localhost:8092${img}`}
-                    alt=""
+          return (
+            <div className="product-row" key={p.id}>
+              {/* MEDIA */}
+              <div className="image-section">
+                {mainMedia && isVideo(mainMedia) ? (
+                  <video
+                    className="main-img"
+                    controls
+                    muted
+                    playsInline
+                    preload="metadata"
                     onClick={() => {
                       setActiveProduct(p);
-                      setActiveImg(i);
+                      setActiveIndex(activeIndex);
+                    }}
+                  >
+                    <source
+                      src={`http://localhost:8092${mainMedia}`}
+                      type="video/mp4"
+                    />
+                  </video>
+                ) : (
+                  <img
+                    className="main-img"
+                    src={`http://localhost:8092${mainMedia}`}
+                    alt={p.name}
+                    onClick={() => {
+                      setActiveProduct(p);
+                      setActiveIndex(0);
                     }}
                   />
-                ))}
+                )}
+
+                {/* THUMBNAILS */}
+                <div className="thumb-strip">
+                  {media.map((m, i) =>
+                    isVideo(m) ? (
+                      <div
+                        key={i}
+                        className="thumb-video-wrapper"
+                        onClick={() => {
+                          setActiveProduct(p);
+                          setActiveIndex(i);
+                        }}
+                      >
+                        <video
+                          className="thumb-video"
+                          muted
+                          playsInline
+                          preload="metadata"
+                        >
+                          <source
+                            src={`http://localhost:8092${m}`}
+                            type="video/mp4"
+                          />
+                        </video>
+                        <span className="play-icon">▶</span>
+                      </div>
+                    ) : (
+                      <img
+                        key={i}
+                        src={`http://localhost:8092${m}`}
+                        alt=""
+                        onClick={() => {
+                          setActiveProduct(p);
+                          setActiveIndex(i);
+                        }}
+                      />
+                    )
+                  )}
+                </div>
+              </div>
+
+              {/* INFO */}
+              <div className="info-section">
+                <h3>{p.name}</h3>
+                <p className="desc">{p.description}</p>
+                <div className="price">₹ {p.price}</div>
+                <button onClick={() => addToCart(p.id)}>
+                  Add to Cart
+                </button>
               </div>
             </div>
-
-            {/* RIGHT INFO */}
-            <div className="info-section">
-              <h3>{p.name}</h3>
-              <p className="desc">{p.description}</p>
-
-              <div className="price">₹ {p.price}</div>
-
-              <button onClick={() => addToCart(p.id)}>
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {/* IMAGE VIEWER */}
+      {/* VIEWER */}
       {activeProduct && (
         <div className="viewer" onClick={() => setActiveProduct(null)}>
           <div className="viewer-box" onClick={e => e.stopPropagation()}>
-            <img
-              src={`http://localhost:8092${activeProduct.imageUrls[activeImg]}`}
-              alt=""
-            />
-            <div className="viewer-thumbs">
-              {activeProduct.imageUrls.map((img, i) => (
+            {(() => {
+              const media = getMedia(activeProduct);
+              const m = media[activeIndex];
+              if (!m) return null;
+
+              return isVideo(m) ? (
+                <video
+                  controls
+                  autoPlay
+                  muted
+                  playsInline
+                  preload="metadata"
+                >
+                  <source
+                    src={`http://localhost:8092${m}`}
+                    type="video/mp4"
+                  />
+                </video>
+              ) : (
                 <img
-                  key={i}
-                  src={`http://localhost:8092${img}`}
+                  src={`http://localhost:8092${m}`}
                   alt=""
-                  className={i === activeImg ? "active" : ""}
-                  onClick={() => setActiveImg(i)}
                 />
-              ))}
+              );
+            })()}
+
+            <div className="viewer-thumbs">
+              {getMedia(activeProduct).map((m, i) =>
+                isVideo(m) ? (
+                  <div
+                    key={i}
+                    className="thumb-video-wrapper"
+                    onClick={() => setActiveIndex(i)}
+                  >
+                    <video
+                      className={i === activeIndex ? "active" : ""}
+                      muted
+                      playsInline
+                      preload="metadata"
+                    >
+                      <source
+                        src={`http://localhost:8092${m}`}
+                        type="video/mp4"
+                      />
+                    </video>
+                    <span className="play-icon">▶</span>
+                  </div>
+                ) : (
+                  <img
+                    key={i}
+                    src={`http://localhost:8092${m}`}
+                    alt=""
+                    className={i === activeIndex ? "active" : ""}
+                    onClick={() => setActiveIndex(i)}
+                  />
+                )
+              )}
             </div>
           </div>
         </div>

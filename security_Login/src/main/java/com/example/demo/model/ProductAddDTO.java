@@ -6,6 +6,7 @@ public class ProductAddDTO {
     private String description;
     private double price;
     private MultipartFile[] images;
+    private MultipartFile[] videos;
 	public String getName() {
 		return name;
 	}
@@ -29,6 +30,12 @@ public class ProductAddDTO {
 	}
 	public void setImages(MultipartFile[] images) {
 		this.images = images;
+	}
+	public MultipartFile[] getVideos() {
+		return videos;
+	}
+	public void setVideos(MultipartFile[] videos) {
+		this.videos = videos;
 	}
     
     // Getters and Setters

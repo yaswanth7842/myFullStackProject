@@ -19,6 +19,15 @@ public class Product {
     @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
     @Column(name = "image_url")
     private List<String> imageUrls;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+        name = "product_videos",
+        joinColumns = @JoinColumn(name = "product_id")
+    )
+    @Column(name = "video_path")
+    private List<String> videoPaths;
+
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -35,4 +44,12 @@ public class Product {
 
     public List<String> getImageUrls() { return imageUrls; }
     public void setImageUrls(List<String> imageUrls) { this.imageUrls = imageUrls; }
+	public List<String> getVideoPaths() {
+		return videoPaths;
+	}
+	public void setVideoPaths(List<String> videoPaths) {
+		this.videoPaths = videoPaths;
+	}
+    
+    
 }

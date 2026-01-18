@@ -6,7 +6,8 @@ const AddProduct = () => {
     name: "",
     description: "",
     price: "",
-    images: []
+    images: [],
+    video: null
   });
 
   const handleChange = (e) => {
@@ -14,6 +15,8 @@ const AddProduct = () => {
 
     if (name === "images") {
       setProduct({ ...product, images: Array.from(files) });
+    } else if (name === "video") {
+      setProduct({ ...product, video: files[0] });
     } else {
       setProduct({ ...product, [name]: value });
     }
@@ -22,8 +25,14 @@ const AddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // ✅ VALIDATION
     if (product.images.length < 1 || product.images.length > 5) {
       alert("Select minimum 1 and maximum 5 images");
+      return;
+    }
+
+    if (!product.video) {
+      alert("Please select 1 video");
       return;
     }
 
@@ -32,9 +41,13 @@ const AddProduct = () => {
     formData.append("description", product.description);
     formData.append("price", product.price);
 
+    // ✅ IMAGES
     product.images.forEach((img) => {
-      formData.append("images", img); // ✅ VERY IMPORTANT
+      formData.append("images", img);
     });
+
+    // ✅ VIDEO (VERY IMPORTANT)
+    formData.append("videos", product.video);
 
     const token = localStorage.getItem("token");
 
@@ -49,7 +62,13 @@ const AddProduct = () => {
 
       if (res.ok) {
         alert("Product added successfully");
-        setProduct({ name: "", description: "", price: "", images: [] });
+        setProduct({
+          name: "",
+          description: "",
+          price: "",
+          images: [],
+          video: null
+        });
       } else {
         alert("Failed to add product");
       }
@@ -64,15 +83,48 @@ const AddProduct = () => {
       <h2>Add Product</h2>
 
       <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Name" value={product.name} onChange={handleChange} required />
-        <input type="text" name="description" placeholder="Description" value={product.description} onChange={handleChange} required />
-        <input type="number" name="price" placeholder="Price" value={product.price} onChange={handleChange} required />
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          value={product.name}
+          onChange={handleChange}
+          required
+        />
 
+        <input
+          type="text"
+          name="description"
+          placeholder="Description"
+          value={product.description}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="number"
+          name="price"
+          placeholder="Price"
+          value={product.price}
+          onChange={handleChange}
+          required
+        />
+
+        {/* IMAGES */}
         <input
           type="file"
           name="images"
           accept="image/*"
           multiple
+          onChange={handleChange}
+          required
+        />
+
+        {/* VIDEO */}
+        <input
+          type="file"
+          name="video"
+          accept="video/mp4,video/webm,video/ogg"
           onChange={handleChange}
           required
         />

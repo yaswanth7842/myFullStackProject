@@ -44,6 +44,7 @@ public class SecurityConfig {
             	    .requestMatchers(
             	        "/auth/**",
             	        "/products/all",
+            	        "/videos/**",
             	        "/images/**",
             	        "/uploads/**"
             	    ).permitAll()
@@ -51,7 +52,6 @@ public class SecurityConfig {
             	    .requestMatchers("/api/cart/**").authenticated()
             	    .requestMatchers("/products/forgotpassword/**").authenticated()
             	    
-            	    .requestMatchers("/products/add").hasRole("ADMIN")
             	    .requestMatchers("/products/add").hasRole("ADMIN")
 
             	    .anyRequest().authenticated()
