@@ -53,7 +53,8 @@ public class SecurityConfig {
             	    .requestMatchers("/products/forgotpassword/**").authenticated()
             	    
             	    .requestMatchers("/products/add").hasRole("ADMIN")
-
+            	    .requestMatchers("/products/update").hasRole("ADMIN")
+            	    .requestMatchers("/products/deleteproducts").hasRole("ADMIN")
             	    .anyRequest().authenticated()
             	)
 

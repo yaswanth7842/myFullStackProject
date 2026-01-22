@@ -11,7 +11,7 @@ export function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // ✅ Clear old token
+    // Clear old auth
     localStorage.removeItem("token");
     localStorage.removeItem("role");
 
@@ -30,20 +30,18 @@ export function Login() {
     localStorage.setItem("token", data.token);
     localStorage.setItem("role", data.role);
 
+    // ✅ IMPORTANT: notify Navbar
+    window.dispatchEvent(new Event("authChange"));
+
     navigate("/");
   };
 
   return (
     <div className="container">
-      {/* Left Image */}
       <div className="left-image">
-        <img
-          src="./pexels-maksgelatin-4352247.jpg"
-          alt="leftSide"
-        />
+        <img src="./pexels-maksgelatin-4352247.jpg" alt="leftSide" />
       </div>
 
-      {/* Right Form */}
       <div className="right-content">
         <form className="form" onSubmit={handleLogin}>
           <h2 className="title">Sign in</h2>
@@ -65,14 +63,25 @@ export function Login() {
           </div>
 
           <div className="input-box">
-            <img width="15" height="15" viewBox="0 0 13 17" src="./mail.png" alt="" />
-            <input type="email" placeholder="Email id" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <img width="15" height="15" src="./mail.png" alt="email" />
+            <input
+              type="email"
+              placeholder="Email id"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
 
           <div className="input-box">
-
-            <img width="15" height="15" viewBox="0 0 13 17" src="./lock_15630793.png" alt="" />
-            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <img width="15" height="15" src="./lock_15630793.png" alt="password" />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
 
           <div className="options">
@@ -96,6 +105,4 @@ export function Login() {
   );
 }
 
-
 export default Login;
-

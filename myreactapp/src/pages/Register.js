@@ -67,6 +67,7 @@ function RegisterPage() {
         <div className="signup-input">
           <img src="./user.png" alt="" />
           <input
+            id="name"
             type="text"
             name="name"
             placeholder="Full name"
@@ -80,6 +81,7 @@ function RegisterPage() {
         <div className="signup-input">
           <img src="./mail.png" alt="" />
           <input
+            id="email"
             type="email"
             name="email"
             placeholder="Email address"
@@ -93,6 +95,7 @@ function RegisterPage() {
         <div className="signup-input">
           <img src="./lock_15630793.png" alt="" />
           <input
+            id="password"
             type="password"
             name="password"
             placeholder="Password"
@@ -106,6 +109,7 @@ function RegisterPage() {
         <div className="signup-input">
           <img src="./lock_15630793.png" alt="" />
           <input
+            id="confirmPassword"
             type="password"
             name="confirmPassword"
             placeholder="Confirm password"
@@ -116,7 +120,7 @@ function RegisterPage() {
         </div>
 
         <div className="signup-options">
-          <input type="checkbox" required />
+          <input id="terms" name="terms" type="checkbox" required />
           <span>I agree to the terms</span>
         </div>
 

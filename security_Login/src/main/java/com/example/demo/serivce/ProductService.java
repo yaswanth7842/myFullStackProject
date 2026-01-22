@@ -111,4 +111,24 @@ public class ProductService {
         return "Product deleted successfully";
     }
 
+	public String updateProducts(Long id,ProductGetAllDTO dto) {
+
+		// TODO Auto-generated method stub
+
+		 Product product = productRepository.findById(id)
+	                .orElseThrow(() -> new RuntimeException("Product not found"));
+		if(dto.getDescription().equals(product.getDescription())
+				&& dto.getName().equals(product.getName())
+				&& dto.getPrice()==product.getPrice()) {
+			return "No changes detected";
+		}
+		 product.setName(dto.getName());
+		 product.setDescription(dto.getDescription());
+		 
+		 product.setPrice(dto.getPrice());
+		
+		 productRepository.save(product);
+		return "Updated Sucessfully";
+	}
+
 }

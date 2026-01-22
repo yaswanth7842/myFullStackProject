@@ -1,34 +1,231 @@
+/* ================= BASE ================= */
+body {
+  background: #f3f4f6;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ================= ADD PRODUCT CARD ================= */
 .add-container {
-  width: 400px;
+  max-width: 650px;
   margin: 40px auto;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px #ccc;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
 }
 
 .add-container h2 {
-  text-align: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #111827;
 }
 
+/* ================= FORM ================= */
 .add-container form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 
 .add-container input,
-.add-container button {
-  padding: 8px;
-  font-size: 14px;
+.add-container select {
+  padding: 11px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
 }
 
-.add-container button {
-  background-color: #007bff;
-  color: white;
-  border: none;
+.add-container input:focus,
+.add-container select:focus {
+  border-color: #111827;
+}
+
+/* FILE INPUT */
+.add-container input[type="file"] {
+  padding: 8px;
+  font-size: 14px;
+  background: #f9fafb;
   cursor: pointer;
 }
 
+/* ================= PRICE GROUP ================= */
+.price-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.price-group input {
+  width: 100%;
+}
+
+/* ================= BUTTON ================= */
+.add-container button {
+  margin-top: 10px;
+  padding: 12px;
+  background: #111827;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
 .add-container button:hover {
-  background-color: #0056b3;
+  background: #000000;
+}
+
+/* ================= PRODUCT LIST ================= */
+.product-page {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.product-row {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 40px;
+  padding: 30px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* ================= IMAGE ================= */
+.main-img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* ================= INFO ================= */
+.info-section h3 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.desc {
+  color: #4b5563;
+  margin: 6px 0;
+}
+
+.price {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.old-price {
+  color: #9ca3af;
+  text-decoration: line-through;
+  font-size: 14px;
+}
+
+/* ================= ADMIN ACTIONS ================= */
+.admin-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.admin-actions button {
+  padding: 10px 20px;
+  border: none;
+  background: #111827;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.admin-actions .danger {
+  background: crimson;
+}
+
+/* ================= MODAL ================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-box {
+  background: white;
+  padding: 30px;
+  width: 420px;
+  border-radius: 10px;
+}
+
+.modal-box h3 {
+  margin-bottom: 12px;
+}
+
+.modal-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-box input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.modal-actions .cancel {
+  background: #9ca3af;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 900px) {
+  .product-row {
+    grid-template-columns: 1fr;
+  }
+
+  .price-group {
+    grid-template-columns: 1fr;
+  }
+}
+.product-row {
+  position: relative; /* REQUIRED for floating */
+}
+
+/* FLOATING SELLING PRICE */
+.offer-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  background: linear-gradient(135deg, #ff4d4f, #ff7a45);
+  color: white;
+
+  padding: 6px 12px;
+  border-radius: 20px;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+/* MRP */
+.old-price {
+  color: #9ca3af;
+  text-decoration: line-through;
+  font-size: 14px;
 }
