@@ -44,6 +44,10 @@ public class SecurityConfig {
             	    .requestMatchers(
             	        "/auth/**",
             	        "/products/all",
+            	        "/products/id/**",
+            	        "/products/category/**",
+            	        "/auth/otp/**",
+            	        "/auth/google",
             	        "/videos/**",
             	        "/images/**",
             	        "/uploads/**"
@@ -53,8 +57,8 @@ public class SecurityConfig {
             	    .requestMatchers("/products/forgotpassword/**").authenticated()
             	    
             	    .requestMatchers("/products/add").hasRole("ADMIN")
-            	    .requestMatchers("/products/update").hasRole("ADMIN")
-            	    .requestMatchers("/products/deleteproducts").hasRole("ADMIN")
+            	    .requestMatchers("/products/update/**").hasRole("ADMIN")
+            	    .requestMatchers("/products/deleteproducts/**").hasRole("ADMIN")
             	    .anyRequest().authenticated()
             	)
 

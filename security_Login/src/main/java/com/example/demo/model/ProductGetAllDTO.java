@@ -7,6 +7,7 @@ public class ProductGetAllDTO {
 
     private Long id;
     private String name;
+    private String category;
     private String description;
     private double price;
     private List<String> imageUrls;
@@ -47,6 +48,12 @@ public class ProductGetAllDTO {
 	}
 	public void setVideoPaths(List<String> videoPath) {
 		this.videoPaths= videoPath;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	
 	

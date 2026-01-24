@@ -67,11 +67,15 @@ const AddProducts = () => {
   const [products, setProducts] = useState([]);
 
   const fetchProducts = () => {
-    fetch("http://localhost:8092/products/all")
-      .then(res => res.json())
-      .then(setProducts)
-      .catch(() => alert("Failed to load products"));
-  };
+  fetch("http://localhost:8092/products/all")
+    .then(res => res.json())
+    .then(data => {
+      const sorted = [...data].sort((a, b) => b.id - a.id);
+      setProducts(sorted);
+    })
+    .catch(() => alert("Failed to load products"));
+};
+
 
   useEffect(() => {
     fetchProducts();
@@ -167,10 +171,9 @@ const AddProducts = () => {
 
           <select name="category" onChange={handleChange} required>
             <option value="">Select Category</option>
-            <option value="Shoes">Shoes</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Fashion">Fashion</option>
-            <option value="Sports">Sports</option>
+            <option value="Chairs">Chairs</option>
+            <option value="Sofas">Sofas</option>
+            <option value="Beds">Beds</option>
           </select>
 
           <input name="description" placeholder="Description" onChange={handleChange} required />

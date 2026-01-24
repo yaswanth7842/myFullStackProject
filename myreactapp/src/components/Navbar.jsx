@@ -3,111 +3,115 @@ import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-    const [open, setOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [role, setRole] = useState(null);
-    const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [role, setRole] = useState(null);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const checkAuth = () => {
-            const token = localStorage.getItem("token");
-            const userRole = localStorage.getItem("role");
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem("token");
+      const userRole = localStorage.getItem("role");
 
-            setIsLoggedIn(!!token);
-            setRole(userRole);
-        };
-
-        // initial check
-        checkAuth();
-
-        // listen for login/logout
-        window.addEventListener("authChange", checkAuth);
-
-        return () => {
-            window.removeEventListener("authChange", checkAuth);
-        };
-    }, []);
-
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-
-        // notify all components
-        window.dispatchEvent(new Event("authChange"));
-
-        navigate("/login");
+      setIsLoggedIn(!!token);
+      setRole(userRole);
     };
 
-    return (
-        <nav className="navbar">
-            <Link to="/" className="logo">FurniNest</Link>
+    checkAuth();
+    window.addEventListener("authChange", checkAuth);
 
-            <ul className="nav-links">
-                <li><Link to="/">Home</Link></li>
-                {role === "ROLE_ADMIN" ? (
-                    <li><Link to="/product">Add Products</Link></li>
-                ) : (
-                    <li><Link to="/products">Products</Link></li>
-                )}
-                <li><Link to="/contact">Contact</Link></li>
-                <li><Link to="/cart">Cart</Link></li>
-            </ul>
+    return () => {
+      window.removeEventListener("authChange", checkAuth);
+    };
+  }, []);
 
-            {/* AUTH BUTTONS (DESKTOP) */}
-            <div className="auth-links">
-                {!isLoggedIn && (
-                    <>
-                        <Link to="/login">Login</Link>
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    window.dispatchEvent(new Event("authChange"));
+    navigate("/login");
+  };
 
-                        <button className="cta-btn desktop-only">
-                            <Link to="/register">Register</Link>
-                        </button>
-                    </>
-                )}
+  return (
+    <nav className="navbar">
+      <Link to="/" className="logo">FurniNest</Link>
 
-                {isLoggedIn && (
-                    <button className="cta-btn" onClick={handleLogout}>
-                        Logout
-                    </button>
-                )}
-            </div>
+      {/* DESKTOP MENU */}
+      <ul className="nav-links">
+        <li><Link to="/">Home</Link></li>
 
-            {/* MOBILE MENU BUTTON */}
-            <button
-                className="menu-btn mobile-only"
-                onClick={() => setOpen(!open)}
-            >
-                ☰
+        {role === "ROLE_ADMIN" ? (
+          <li><Link to="/product">Add Products</Link></li>
+        ) : (
+          <li><Link to="/productList">Products</Link></li>
+        )}
+
+        <li><Link to="/contact">Contact</Link></li>
+        <li><Link to="/cart">Cart</Link></li>
+        <li><Link to="/sofaproduct">Sofas</Link></li>
+      </ul>
+
+      {/* AUTH BUTTONS (DESKTOP) */}
+      <div className="auth-links">
+        {!isLoggedIn ? (
+          <>
+            <Link to="/login">Login</Link>
+            <button className="cta-btn desktop-only">
+              <Link to="/register">Register</Link>
             </button>
+          </>
+        ) : (
+          <button className="cta-btn" onClick={handleLogout}>
+            Logout
+          </button>
+        )}
+      </div>
 
-            {/* MOBILE MENU */}
-            {open && (
-                <div className="mobile-menu">
-                    <ul>
-                        <li><Link to="/">Home</Link></li>
-                        {role === "ROLE_ADMIN" ? (
-                            <li><Link to="/product">Add Products</Link></li>
-                        ) : (
-                            <li><Link to="/productlist">Products</Link></li>
-                        )}
-                        <li><Link to="/contact">Contact</Link></li>
-                        <li><Link to="/cart">Cart</Link></li>
-                    </ul>
+      {/* MOBILE MENU BUTTON */}
+      <button
+        className="menu-btn mobile-only"
+        onClick={() => setOpen(!open)}
+      >
+        ☰
+      </button>
 
-                    {!isLoggedIn && (
-                        <>
-                            <Link to="/login">Login</Link>
-                            <Link to="/register">Register</Link>
-                        </>
-                    )}
+      {/* MOBILE MENU */}
+      {open && (
+        <div className="mobile-menu">
+          <ul>
+            <li><Link to="/" onClick={() => setOpen(false)}>Home</Link></li>
 
-                    {isLoggedIn && (
-                        <button className="cta-btn" onClick={handleLogout}>
-                            Logout
-                        </button>
-                    )}
-                </div>
+            {role === "ROLE_ADMIN" ? (
+              <li>
+                <Link to="/product" onClick={() => setOpen(false)}>
+                  Add Products
+                </Link>
+              </li>
+            ) : (
+              <li>
+                {/* ✅ FIXED HERE */}
+                <Link to="/products" onClick={() => setOpen(false)}>
+                  Products
+                </Link>
+              </li>
             )}
-        </nav>
-    );
+
+            <li><Link to="/contact" onClick={() => setOpen(false)}>Contact</Link></li>
+            <li><Link to="/cart" onClick={() => setOpen(false)}>Cart</Link></li>
+          </ul>
+
+          {!isLoggedIn ? (
+            <>
+              <Link to="/login" onClick={() => setOpen(false)}>Login</Link>
+              <Link to="/register" onClick={() => setOpen(false)}>Register</Link>
+            </>
+          ) : (
+            <button className="cta-btn" onClick={handleLogout}>
+              Logout
+            </button>
+          )}
+        </div>
+      )}
+    </nav>
+  );
 }

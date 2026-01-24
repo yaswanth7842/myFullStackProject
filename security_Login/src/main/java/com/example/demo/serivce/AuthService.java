@@ -17,6 +17,9 @@ import com.example.demo.repositary.UserRepository;
 public class AuthService {
 	
 	@Autowired
+	private OtpService otpService;
+	
+	@Autowired
 	private UserRepository userRepository;
 	
 	 @Autowired
@@ -29,6 +32,10 @@ public class AuthService {
 	}
 	
 	public String register(RegisterRequest register) {
+
+	    if (!otpService.isEmailVerified(register.getEmail())) {
+	        return "Email not verified";
+	    }
 		if(register.getPassword()==null||register.getPassword().trim().isBlank()) {
 			return "password required";
 		}

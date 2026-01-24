@@ -43,6 +43,7 @@ public class ProductService {
         	throw new RuntimeException("Name should be unquic");
         }
         product.setName(dto.getName());
+        product.setCategory(dto.getCategory());
         product.setDescription(dto.getDescription());
         product.setPrice(dto.getPrice());
 
@@ -83,10 +84,12 @@ public class ProductService {
             ProductGetAllDTO dto = new ProductGetAllDTO();
             dto.setId(product.getId());
             dto.setName(product.getName());
+            
             dto.setDescription(product.getDescription());
             dto.setPrice(product.getPrice());
             dto.setImageUrls(product.getImageUrls());
             dto.setVideoPaths(product.getVideoPaths());
+            
             dtoList.add(dto);
         }
 
@@ -129,6 +132,38 @@ public class ProductService {
 		
 		 productRepository.save(product);
 		return "Updated Sucessfully";
+	}
+
+	public ProductGetAllDTO getProductByIdDTO(Long id) {
+	    Product product = productRepository.findById(id)
+	            .orElseThrow(() -> new RuntimeException("Product not found"));
+
+	    ProductGetAllDTO dto = new ProductGetAllDTO();
+	    dto.setId(product.getId());
+	    dto.setName(product.getName());
+	    dto.setDescription(product.getDescription());
+	    dto.setPrice(product.getPrice());
+	    dto.setImageUrls(product.getImageUrls());
+	    dto.setVideoPaths(product.getVideoPaths());
+
+	    return dto;
+	}
+
+	public List<ProductGetAllDTO> getProductsByCategoryDTO(String category) {
+	    List<Product> products = productRepository.findByCategory(category);
+
+	    List<ProductGetAllDTO> list = new ArrayList<>();
+	    for (Product p : products) {
+	        ProductGetAllDTO dto = new ProductGetAllDTO();
+	        dto.setId(p.getId());
+	        dto.setName(p.getName());
+	        dto.setDescription(p.getDescription());
+	        dto.setPrice(p.getPrice());
+	        dto.setImageUrls(p.getImageUrls());
+	        dto.setVideoPaths(p.getVideoPaths());
+	        list.add(dto);
+	    }
+	    return list;
 	}
 
 }

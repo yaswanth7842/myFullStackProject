@@ -3,6 +3,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ProductAddDTO {
     private String name;
+    private String category;
     private String description;
     private double price;
     private MultipartFile[] images;
@@ -36,6 +37,12 @@ public class ProductAddDTO {
 	}
 	public void setVideos(MultipartFile[] videos) {
 		this.videos = videos;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
 	}
     
     // Getters and Setters

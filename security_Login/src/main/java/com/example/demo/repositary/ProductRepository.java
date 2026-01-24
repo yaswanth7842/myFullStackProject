@@ -2,6 +2,7 @@ package com.example.demo.repositary;
 
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,6 +22,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Transactional
     @Query("DELETE FROM CartItem c WHERE c.product.id = :productId")
     void deleteByProductId(@Param("productId") Long productId);
+
+	List<Product> findByCategory(String category);
 	
 }
 

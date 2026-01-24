@@ -35,6 +35,7 @@ public class ProductController {
     @Transactional
     public ResponseEntity<Product> addProduct(
             @RequestParam String name,
+            @RequestParam String category,
             @RequestParam String description,
             @RequestParam double price,
             @RequestParam("images") MultipartFile[] images,
@@ -43,6 +44,7 @@ public class ProductController {
 
         ProductAddDTO dto = new ProductAddDTO();
         dto.setName(name);
+        dto.setCategory(category);
         dto.setDescription(description);
         dto.setPrice(price);
         dto.setImages(images);
@@ -59,6 +61,19 @@ public class ProductController {
         List<ProductGetAllDTO> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
     }
+    
+    @GetMapping("/id/{id}")
+    public ResponseEntity<ProductGetAllDTO> getProductById(@PathVariable Long id) {
+        ProductGetAllDTO dto = productService.getProductByIdDTO(id);
+        return ResponseEntity.ok(dto);
+    }
+    
+    @GetMapping("/category/{category}")
+    public List<ProductGetAllDTO> getProductsByCategory(
+            @PathVariable String category) {
+        return productService.getProductsByCategoryDTO(category);
+    }
+    
     @DeleteMapping("/deleteproducts/{id}")
     public String deleteProducts(@PathVariable Long id) {
     	return productService.deleteProduct(id);
@@ -70,5 +85,6 @@ public class ProductController {
             @RequestBody ProductGetAllDTO dto) {
         return productService.updateProducts(id, dto);
     }
+   
 
 }

@@ -12,6 +12,7 @@ public class Product {
     private Long id;
 
     private String name;
+    private String category;
     private String description;
     private double price;
 
@@ -49,6 +50,12 @@ public class Product {
 	}
 	public void setVideoPaths(List<String> videoPaths) {
 		this.videoPaths = videoPaths;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
 	}
     
     

@@ -5,13 +5,14 @@ import "./RegisterPage.css";
 function RegisterPage() {
   const [formData, setFormData] = useState({
     name: "",
-    age: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    otp: ""
   });
 
   const [message, setMessage] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,6 +22,52 @@ function RegisterPage() {
     });
   };
 
+  // ================= SEND OTP =================
+  const sendOtp = async () => {
+    if (!formData.email) {
+      setMessage("Please enter email first");
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `http://localhost:8092/auth/otp/send?email=${formData.email}`,
+        { method: "POST" }
+      );
+
+      const text = await res.text();
+      setMessage(text);
+
+      if (res.ok) {
+        setOtpSent(true);
+      }
+    } catch (err) {
+      setMessage("OTP send failed");
+    }
+  };
+
+  // ================= VERIFY OTP =================
+  const verifyOtp = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:8092/auth/otp/verify?email=${formData.email}&otp=${formData.otp}`,
+        { method: "POST" }
+      );
+
+      const text = await res.text();
+      if (!res.ok) {
+        setMessage(text);
+        return false;
+      }
+
+      return true;
+    } catch {
+      setMessage("OTP verification failed");
+      return false;
+    }
+  };
+
+  // ================= REGISTER =================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -29,12 +76,18 @@ function RegisterPage() {
       return;
     }
 
+    if (!otpSent) {
+      setMessage("Please verify email first");
+      return;
+    }
+
+    const otpOk = await verifyOtp();
+    if (!otpOk) return;
+
     try {
-      const response = await fetch("http://localhost:8092/auth/register", {
+      const registerRes = await fetch("http://localhost:8092/auth/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
@@ -42,16 +95,14 @@ function RegisterPage() {
         })
       });
 
-      const text = await response.text();
+      const registerText = await registerRes.text();
+      setMessage(registerText);
 
-      if (text==="Register Sucessfully") {
-        setMessage("Registration successful. Redirecting...");
-        setTimeout(() => navigate("/login"), 2000);
-      } else {
-        setMessage(text);
+      if (registerText === "Register Sucessfully") {
+        setTimeout(() => navigate("/login"), 1500);
       }
     } catch {
-      setMessage("Server error");
+      setMessage("Registration failed");
     }
   };
 
@@ -59,16 +110,12 @@ function RegisterPage() {
     <div className="signup-container">
       <form className="signup-form" onSubmit={handleSubmit}>
         <h2 className="signup-title">Create account</h2>
-        <p className="signup-subtitle">
-          Sign up to get started with your account
-        </p>
+        <p className="signup-subtitle">Sign up to get started with your account</p>
 
         {/* Name */}
         <div className="signup-input">
           <img src="./user.png" alt="" />
           <input
-            id="name"
-            type="text"
             name="name"
             placeholder="Full name"
             value={formData.name}
@@ -81,7 +128,6 @@ function RegisterPage() {
         <div className="signup-input">
           <img src="./mail.png" alt="" />
           <input
-            id="email"
             type="email"
             name="email"
             placeholder="Email address"
@@ -91,11 +137,28 @@ function RegisterPage() {
           />
         </div>
 
+        {!otpSent && (
+          <button type="button" onClick={sendOtp} className="signup-btn">
+            Send OTP
+          </button>
+        )}
+
+        {otpSent && (
+          <div className="signup-input">
+            <input
+              name="otp"
+              placeholder="Enter OTP"
+              value={formData.otp}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        )}
+
         {/* Password */}
         <div className="signup-input">
           <img src="./lock_15630793.png" alt="" />
           <input
-            id="password"
             type="password"
             name="password"
             placeholder="Password"
@@ -109,7 +172,6 @@ function RegisterPage() {
         <div className="signup-input">
           <img src="./lock_15630793.png" alt="" />
           <input
-            id="confirmPassword"
             type="password"
             name="confirmPassword"
             placeholder="Confirm password"
@@ -120,7 +182,7 @@ function RegisterPage() {
         </div>
 
         <div className="signup-options">
-          <input id="terms" name="terms" type="checkbox" required />
+          <input type="checkbox" required />
           <span>I agree to the terms</span>
         </div>
 

@@ -43,6 +43,12 @@ public class JwtFilter extends OncePerRequestFilter {
         // 🌍 PUBLIC ENDPOINTS → SKIP JWT CHECK
         if (path.startsWith("/auth")
                 || path.equals("/products/all")
+                ||path.startsWith("/products/id/")
+                ||path.startsWith("/products/category/")
+                ||path.startsWith("/auth/otp/send/")
+                ||path.startsWith("/auth/otp/verify/")
+                || path.equals("/auth/google")
+                ||path.startsWith("/auth/otp/")
                 || path.startsWith("/images")
                 || path.startsWith("/videos")
                 || path.startsWith("/uploads")) {

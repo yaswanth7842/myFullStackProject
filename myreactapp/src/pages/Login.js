@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import "./Login.css";
 
 export function Login() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -11,7 +11,6 @@ export function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Clear old auth
     localStorage.removeItem("token");
     localStorage.removeItem("role");
 
@@ -30,11 +29,33 @@ export function Login() {
     localStorage.setItem("token", data.token);
     localStorage.setItem("role", data.role);
 
-    // ✅ IMPORTANT: notify Navbar
     window.dispatchEvent(new Event("authChange"));
-
     navigate("/");
   };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+  const res = await fetch("http://localhost:8092/auth/google", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      idToken: credentialResponse.credential,
+    }),
+  });
+
+  if (!res.ok) {
+    alert("Google login failed");
+    return;
+  }
+
+  const data = await res.json();
+
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("role", data.role);
+
+  window.dispatchEvent(new Event("authChange"));
+  navigate("/");
+};
+
 
   return (
     <div className="container">
@@ -49,12 +70,13 @@ export function Login() {
             Welcome back! Please sign in to continue
           </p>
 
-          <button type="button" className="google-btn">
-            <img
-              src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg"
-              alt="google"
+          {/* GOOGLE LOGIN */}
+          <div className="google-btn">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={() => alert("Google Login Failed")}
             />
-          </button>
+          </div>
 
           <div className="divider">
             <span></span>
@@ -74,7 +96,12 @@ export function Login() {
           </div>
 
           <div className="input-box">
-            <img width="15" height="15" src="./lock_15630793.png" alt="password" />
+            <img
+              width="15"
+              height="15"
+              src="./lock_15630793.png"
+              alt="password"
+            />
             <input
               type="password"
               placeholder="Password"
